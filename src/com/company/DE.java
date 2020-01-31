@@ -15,15 +15,17 @@ public class DE {
     int R;
     int a,b,c;
     int MAX_EVALUATION;
+    int SelectedProblem;
     Random ran = new Random();
     double S_best;
 
-    void DE(double CRat, double Fit, int Dim, int pop, int MAX_EVAL) {
+    void DE(double CRat, double Fit, int Dim, int pop, int MAX_EVAL, int SP) {
         CR = CRat; //Crossover Probability - Možnost križanja
         F = Fit; //Differential Weight - Utež za mutacijo
         D = Dim; //Dimenzija
         NP = pop; //Populacija
         MAX_EVALUATION = MAX_EVAL; //Maksimalno število evaluacij
+        SelectedProblem = SP; //Izbrana optimizacija
     }
 
     void init() {
