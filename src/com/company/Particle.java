@@ -10,7 +10,6 @@ public class Particle {
     int dimension;
     List<Double> velocity = new ArrayList<>();
     List<Double> coords = new ArrayList<>();
-    List<Double> best_individual = new ArrayList<>();
     double up;
     double low;
     Random r = new Random();
