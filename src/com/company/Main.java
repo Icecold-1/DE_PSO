@@ -16,15 +16,13 @@ public class Main {
     }
 
     public static void main(String[] args) {
-	// write your code here
-        int D = Integer.parseInt(args[0]);
-        int MAX_EVAL = Integer.parseInt(args[1]);
+
+        double D = Double.parseDouble(args[0]);
+        double MAX_EVAL = Double.parseDouble(args[1]);
         double CR = Double.parseDouble(args[2]);
         double F = Double.parseDouble(args[3]);
-        int population = Integer.parseInt(args[4]);
-        double uselessArg = Double.parseDouble(args[5]);
-        double uselessArg2 = Double.parseDouble(args[6]);
-        double uselessArg3 = Double.parseDouble(args[7]);
+        double population = Double.parseDouble(args[4]);
+        double selectedProblem = Double.parseDouble(args[5]);
         int problem = Integer.parseInt(args[8]);
 
         double low = Double.parseDouble(args[0]);
@@ -40,9 +38,9 @@ public class Main {
         selectedProblem(problem);
         if(problem == 1) {
             DE de = new DE();
-            de.DE(CR, F, D, population, MAX_EVAL);
+            de.DE(CR, F, (int)D, (int)population, (int)MAX_EVAL, (int)selectedProblem);
             double result = de.exec();
-            System.out.println("BEST FOUND: " + result);
+            System.out.print("Min: " + result);
         }
         else if(problem == 2) {
             PSO pso = new PSO();
