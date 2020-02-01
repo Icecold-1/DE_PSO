@@ -18,6 +18,7 @@ public class DE {
     int SelectedProblem;
     Random ran = new Random();
     double S_best;
+    Problems p = new Problems();
 
     void DE(double CRat, double Fit, int Dim, int pop, int MAX_EVAL, int SP) {
         CR = CRat; //Crossover Probability - Možnost križanja
@@ -32,10 +33,16 @@ public class DE {
         x = new double[NP][];
         f = new double[NP];
 
+        p.setMinMax(SelectedProblem);
+        p.setD(D);
+
+        double min = p.getMin();
+        double max = p.getMax();
+
         //Generiramo naključne posameznike v populaciji
         for (int i = 0; i < NP; i++) {
             x[i] = vrniRND(D, min, max);
-            f[i] = sphere(x[i]);
+            f[i] = p.Problems(SelectedProblem,x[i]);
             S_best = getBestSolution(x[i]);
         }
     }
@@ -47,13 +54,6 @@ public class DE {
 
         return r;
     }
-    //funkcija za določitev optimizacije
-    public double sphere(double[] d) {
-        double r=0;
-        for(int i = 0; i < d.length; i++)
-            r = r + Math.pow(d[i], 2);
-        return r;
-    }
     //Vrnemo najboljšo rešitev
     private double getBestSolution(double[] y) {
         double best = y[0];
@@ -61,6 +61,20 @@ public class DE {
             if(best<y[i])
                 best = y[i];
         return best;
+    }
+
+    private double mean(double[] r) {
+        double mean = 0;
+        for (int i = 0; i < r.length; i++)
+            mean = mean + r[i];
+        return mean/r.length;
+    }
+    private void standardDeviation(double[] r) {
+        double temp = 0;
+        double mean = mean(r);
+        for (int i = 0; i < r.length; i++)
+            temp = temp + Math.pow(r[i]-mean, 2);
+        System.out.print("Std: " + Math.sqrt(temp/(r.length-1)));
     }
 
     public double exec() {
@@ -85,7 +99,7 @@ public class DE {
                         y[j] = x[a][j] + F*(x[b][j]-x[c][j]);
                     else
                         y[j]=x[i][j];
-                    fy = sphere(y);
+                    fy = p.Problems(SelectedProblem,y);
                     eval++;
                     //če je fitnes obravnavanega posameznika večji od novega posameznika, ga zamenjamo
                     if(f[i]>fy){
@@ -96,10 +110,12 @@ public class DE {
                         break;
                 }
                 x[i]=y;
-                sphere(x[i]);
+                p.Problems(SelectedProblem,x[i]);
                 S_best = getBestSolution(x[i]);
             }
         }
+        standardDeviation(f);
+        System.out.print("Avg: " + mean(f));
         return S_best;
     }
 }
